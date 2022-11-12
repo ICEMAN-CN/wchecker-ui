@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wchecker</title>
+</head>
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<body style="background-color: rgb(223, 224, 230)">
+<div id="header">
+    <div id="logo-container">
+        <img id="logo" alt="Wchecker logo" src="./assets/wchecker_logo.png">
+    </div>
+</div>
+<div id="main">
+    <div id="remark">
+        <span style="font-size: 30px;color: rgb(24, 39, 215)">使用Wchecker润色你的英文文档</span><br><br><br>
+        <span style="color: #888">上传doc、docx、txt文件，获取语法、标点、拼写、风格、词汇等全方位书写建议</span><br>
+        <span style="color: #888">Wchecker通过对照数百万篇已发表论文给出专业建议，马上费试用！</span><br>
+    </div>
+    <div id="loading" class="loading"></div>
+    <div id="upload">
+        <div>
+            <label for="file" id="upFile" style="background: rgb(24, 39, 215);">上传文件</label>
+            <input type="file" id="file">
+        </div>
+    </div>
+    <div id="fileName">
+    </div>
+</div>
+
+<div id="footer">
+    <div id="copyright" style="">2022 ©ICEMAN - 冀ICP备20004026号<br></div>
+    <div id="info">
+        <div id="website">
+            <a target="_blank" href="http://wchecker.cn">wchecker.cn</a>
+        </div>&nbsp;·&nbsp;
+        <div id="help">
+            <a target="_blank" href="mailto:yfly1992@163.com">yfly1992@163.com</a>
+        </div>&nbsp;·&nbsp;
+        <div id="Github">
+            <a target="_blank" href="https://github.com/ICEMAN-CN">Github</a>
+        </div>&nbsp;&nbsp;
+    </div>
+</div>
+</body>
+<script>
+    $("#file").on("change", function () {
+        //截取路径，获取上传文件名
+        var urlArr = this.value.split("\\");
+        console.log("urlArr")
+        console.log(urlArr)
+        // 开始调用接口
+        // 接口响应后根据结果处理页面显示
+        // 接口成功开始轮训接口、页面loading
+        // 接口失败直接报错
+        // 轮训结束后直接下载文件、页面修改样式
+
+        if (this && this.files && this.files[0]) {
+            document.getElementById("fileName").innerHTML = urlArr[urlArr.length - 1];
+            document.getElementById("upFile").innerHTML = '内容校对中...';
+            document.getElementById("file").disabled = 'disabled';
+            document.getElementById("upFile").style.cursor = 'not-allowed';
+            document.getElementById("loading").style.display = 'block';
+        } else {
+            //兼容IE9以下
+            document.getElementById("fileName").innerHTML = urlArr[urlArr.length - 1];
+            document.getElementById("upFile").innerHTML = '内容校对中...';
+            document.getElementById("file").disabled = 'disabled';
+            document.getElementById("upFile").style.cursor = 'not-allowed';
+            document.getElementById("loading").style.display = 'block';
+        }
+
+    });
+</script>
+
+<style>
+    #header {
+        position: fixed;
+        height: 60px;
+        width: 100%;
+        right: 0;
+        top: 0;
+        z-index: 999;
+        background-color: white;
+        box-shadow: 2px 2px 2px #888888;
+    }
+
+    #logo {
+        height: 60px;
+        width: 170px;
+    }
+
+    #footer {
+        display: block;
+        height: 60px;
+        line-height: 20px;
+        margin-top: 10px;
+    }
+
+    #main {
+        margin-left: 15%;
+        margin-top: 60px;
+        text-align: center;
+        line-height: 160px;
+        width: 70%;
+        height: 700px;
+        display: flex;
+        justify-content: center;
+        background-color: white;
+        box-shadow: 1px 1px 1px #888888;
+        flex-flow: column nowrap;
+        align-items: center;
+    }
+
+    #copyright, #info {
+        margin-top: 5px;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    #remark {
+        line-height: 30px;
+        font-size: 16px;
+    }
+
+    #upload {
+        margin-top: 60px;
+        font-size: 20px;
+        line-height: 30px;
+    }
+
+    #fileName {
+        margin-top: 300px;
+        font-size: 20px;
+        line-height: 30px;
+        position: absolute; z-index: 10;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    #download {
+        margin-top: 5px;
+        font-size: 20px;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+</style>
+<style>
+    label {
+        height: 40px;
+        line-height: 40px;
+        background: #BE1A21;
+        font-size: 18px;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    /*隐藏默认样式*/
+    input[id=file] {
+        margin-left: 0px;
+        height: 0;
+    }
+</style>
+<style>
+    .loading {
+        position: absolute; z-index: 10;
+        width: 50px;
+        perspective: 200px;
+        margin-top: 80px;
+        display: none;
+    }
+
+    .loading:before,
+    .loading:after {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        content: "";
+        animation: jumping 0.5s infinite alternate;
+        background: rgb(24, 39, 215);
+    }
+
+    .loading:before {
+        left: 0;
+    }
+
+    .loading:after {
+        right: 0;
+        animation-delay: 0.15s;
+    }
+
+    @keyframes jumping {
+        0% {
+            transform: scale(1) translateY(0px) rotateX(0deg);
+            box-shadow: 0 0 0 rgb(24, 39, 215);
+        }
+
+        100% {
+            transform: scale(1.2) translateY(-25px) rotateX(45deg);
+            background: rgb(24, 39, 215);
+            box-shadow: 0 25px 40px #000;
+        }
+    }
+</style>
+</html>
