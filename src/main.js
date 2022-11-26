@@ -1,8 +1,14 @@
-import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
+import ajax from './assets/js/axios.config';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
-import ElementPlus from 'element-plus';//为vue3项目特别更新的版本
-import 'element-plus/dist/index.css';
+Vue.config.productionTip = false;
+Vue.prototype.$ajax = ajax
 
-createApp(App).use(ElementPlus).mount('#app')
+Vue.use(ElementUI);
 
+new Vue({
+  render: h => h(App)
+}).$mount('#app')
